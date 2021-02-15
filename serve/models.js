@@ -30,7 +30,7 @@ const roomSchema = new mongoose.Schema({
 
 //申请会议
 const applyRoomSchema = new mongoose.Schema({
-    roomId: { type: String},
+    roomId: { type: String },
     name: { type: String },
     host: { type: String },
     orderPerson: { type: String },
@@ -42,7 +42,8 @@ const applyRoomSchema = new mongoose.Schema({
     notice: { type: String },
     remarks: { type: String },
     attendee: { type: Array },
-    apply:{type:String,default:'审核中'}
+    apply: { type: String, default: '审核中' },
+    start: {type: Number,default: 0}
 })
 
 const Admin = mongoose.model('Admin', userSchema);

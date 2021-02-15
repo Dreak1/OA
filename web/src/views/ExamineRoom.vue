@@ -7,48 +7,51 @@
     <el-table-column prop="date1" label="会议日期" width="150vw"> </el-table-column>
     <el-table-column prop="startTime" label="开始时间" width="150vw"> </el-table-column>
     <el-table-column prop="endTime" label="结束时间" width="150vw"> </el-table-column>
-    <el-table-column prop="apply" label="审核状态"> </el-table-column>
 
-    <el-table-column fixed="right" label="操作" width="150">
-      <template slot-scope="scope" >
+    <el-table-column fixed="right" label="操作" width="250">
+      <template slot-scope="scope">
         <!-- scope.row就是这一行的所有数据 -->
-        <el-button v-if="scope.row.start==0" @click="remove(scope.row._id)" type="primary" size="small"
-          >撤回申请</el-button
+        <el-button @click="agree(scope.row._id)" type="primary" size="small"
+          >同意</el-button
         >
-        <el-button v-else @click="del(scope.row._id)" type="danger" size="small"
-          >删除记录</el-button
+        <el-button @click="refuse(scope.row._id)" type="danger" size="small"
+          >拒绝</el-button
         >
       </template>
     </el-table-column>
+
   </el-table>
+  
 </template>
 <script>
 export default {
   data() {
     return {
+      centerDialogVisible: false,
       room: [name],
     };
   },
   methods: {
     fetch() {
-      this.$http.get("./apply/process").then((res) => {
-        console.log(res.data)
+      this.$http.get("./examine/process").then((res) => {
         this.room = res.data;
       });
     },
-    remove(id) {
-      this.$http.delete(`./remove/process/${id}`).then(() => {
+    //拒绝申请
+    refuse(id){
+      this.$http.put(`./refuse/room/${id}`,{start:2,apply:'拒绝'}).then(() => {
         this.$message({
-          message: "撤回申请成功",
+          message: "成功",
           type: "success",
         });
         this.fetch();
       });
     },
-    del(id) {
-      this.$http.put(`./del/process/${id}`,{start:4}).then(() => {
+    //同意申请
+    agree(id) {
+      this.$http.put(`./agree/room/${id}`,{start:1,apply:'同意'}).then(() => {
         this.$message({
-          message: "删除记录成功",
+          message: "成功",
           type: "success",
         });
         this.fetch();

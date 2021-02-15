@@ -15,7 +15,7 @@
         <el-submenu index="2">
           <template slot="title"><i class="el-icon-menu"></i>审核会议室</template>
           <el-menu-item-group>
-            <el-menu-item index="/index/create/admin">待审核会议室</el-menu-item>
+            <el-menu-item index="/index/examine/room">待审核会议室</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>

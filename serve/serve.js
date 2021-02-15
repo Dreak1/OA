@@ -142,9 +142,19 @@ app.post('/api/apply/room', async (req, res) => {
   res.send(apply)
 })
 
-//申请会议室数据
+//待审核会议室数据
 app.get('/api/apply/process', async (req, res) => {
-  const room = await Apply.find()
+  const room = await Apply.find({
+    start:{$ne:4}
+  })
+  res.send(room)
+})
+
+//待审核会议室数据
+app.get('/api/examine/process', async (req, res) => {
+  const room = await Apply.find({
+    start:0
+  })
   res.send(room)
 })
 
@@ -173,6 +183,26 @@ app.get('/api/query/allRoom', async (req, res) => {
   res.send(room)
 })
 
+//拒绝申请
+app.put('/api/refuse/room/:id', async (req, res) => {
+  const room = await Apply.findByIdAndUpdate(req.params.id, req.body)
+  res.send(room)
+})
+
+//同意申请
+app.put('/api/agree/room/:id', async (req, res) => {
+  const room = await Apply.findByIdAndUpdate(req.params.id, req.body)
+  res.send(room)
+})
+
+//删除申请记录
+app.put('/api/del/process/:id', async (req, res) => {
+  const room = await Apply.findByIdAndUpdate(req.params.id, req.body)
+  res.send(room)
+})
+
+
+
 app.listen(4000, () => {
   console.log('服务器端口4000启动成功');
-})
+})      
