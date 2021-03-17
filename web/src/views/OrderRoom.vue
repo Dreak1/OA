@@ -44,8 +44,8 @@
 
     <el-form-item label="主持部门" prop="department">
       <el-select v-model="room.department" placeholder="请选择主持部门">
-        <el-option label="部门一" value="a"></el-option>
-        <el-option label="部门二" value="b"></el-option>
+        <el-option label="部门一" value="开发部门"></el-option>
+        <el-option label="部门二" value="测试部门"></el-option>
       </el-select>
     </el-form-item>
 
@@ -180,12 +180,17 @@ export default {
       ],
       allPerson: [
         {
-          value: "01",
+          value: "测试1",
           label: "一号员工",
           type: "success",
         },
         {
-          value: "02",
+          value: "测试2",
+          label: "二号员工",
+          type: "success",
+        },
+        {
+          value: "测试3",
           label: "二号员工",
           type: "success",
         },

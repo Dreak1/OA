@@ -39,13 +39,13 @@ export default {
           type: "error",
         });
       } else {
-        this.$http.post("/register", this.user).then(() => {
+        this.$http.post("/user/register", this.user).then(() => {
           this.$message({
             message: "注册成功",
             type: "success",
           });
           //跳转到列表页
-          this.$router.push("/index/create/user");
+          this.$router.push("/index/user/list");
         });
       }
     },

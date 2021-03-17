@@ -61,6 +61,43 @@ app.post('/api/user/register', async (req, res) => {
   res.send(user)
 })
 
+//获取普通列表
+app.get("/api/user/list",auth, async (req, res) => {
+  const user = await User.find();
+  res.send(user)
+})
+
+//根据id获取用户信息
+app.get("/api/user/:id", async (req, res) => {
+  const user = await User.findById(req.params.id)
+  res.send(user)
+  console.log(user)
+})
+
+app.put('/api/editadmin/:id', auth, async (req, res) => {
+  const admin = await Admin.findByIdAndUpdate(req.params.id, req.body);
+  res.send(admin);
+})
+
+app.put('/api/edituser/:id', auth, async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body);
+  res.send(user);
+})
+
+app.delete('/api/deleteAdmin/:id', auth, async (req, res) => {
+  await Admin.findByIdAndDelete(req.params.id);
+  res.send({
+    success: true
+  })
+})
+
+app.delete('/api/deleteUser/:id', auth, async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.send({
+    success: true
+  })
+})
+
 //用户登陆
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
@@ -90,6 +127,34 @@ app.post('/api/login', async (req, res) => {
   })
 })
 
+//用户登陆
+app.post('/api/user/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({
+    username
+  }).select('+password');
+  if (!user) {
+    return res.status(422).send({
+      message: '用户不存在'
+    })
+  }
+  const isPasswordVaild = require('bcryptjs').compareSync(
+    password,
+    user.password
+  )
+  if (!isPasswordVaild) {
+    return res.status(422).send({
+      message: '密码不正确'
+    })
+  };
+  const token = jwt.sign({
+    id: String(user._id)
+  }, 'abc')
+  res.send({
+    user,
+    token
+  })
+})
 //录入会议室
 app.post('/api/creatroom', async (req, res) => {
   const user = await Room.findOne({

@@ -28,10 +28,10 @@ export default {
       });
     },
     edit(id) {
-      this.$router.push(`/admin/edit/${id}`);
+      this.$router.push(`/index/admin/edit/${id}`);
     },
     remove(id) {
-      this.$http.get(`/userdetail/${id}`).then((res) => {
+      this.$http.get(`/admin/${id}`).then((res) => {
         this.user = res.data;
         if (res.data.username == "admin") {
           this.$message({
@@ -39,7 +39,7 @@ export default {
             type: "error",
           });
         } else {
-          this.$http.delete(`/deleteUser/${id}`).then(() => {
+          this.$http.delete(`/deleteAdmin/${id}`).then(() => {
             this.$message({
               message: "管理员删除成功",
               type: "success",

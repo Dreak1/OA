@@ -23,17 +23,17 @@ export default {
   },
   methods: {
    fetch() {
-      this.$http.get(`/admin/${this.$route.params.id}`).then((res) => {
+      this.$http.get(`/user/${this.$route.params.id}`).then((res) => {
         this.user = res.data;
       });
     },
     saveUsers() {
-      this.$http.put(`/editadmin/${this.$route.params.id}`, this.user).then(() => {
+      this.$http.put(`/edituser/${this.$route.params.id}`, this.user).then(() => {
         this.$message({
           message: "修改用户成功",
           type: "success",
         });
-        this.$router.push("/index/admin/list");
+        this.$router.push("/index/Admin/list");
       });
     },
      

@@ -40,8 +40,11 @@ export default {
           type: "error",
         });
       } else {
-        const res = await this.$http.post("/login", this.model);
+        const res = await this.$http.post("/user/login", this.model);
         localStorage.token = res.data.token;
+        localStorage.username = res.data.user.username;
+        // console.log(res.data.user.username)
+        // console.log(res.data.user._id)
         this.$router.replace("./index"),
           this.$message({
             type: "success",
