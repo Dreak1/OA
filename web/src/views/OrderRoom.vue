@@ -198,6 +198,7 @@ export default {
       dialogVisible: false,
       filterText: "",
       room: {
+        personName:localStorage.getItem('username'),
         roomId: '',
         name: "",//会议主题
         host: "",//会议主持人

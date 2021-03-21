@@ -115,7 +115,7 @@ export default {
     };
   },
   mounted() { 
-    this.queryRoom();
+    //this.queryRoom();
   },
   methods: {
     //查询已经使用的会议室

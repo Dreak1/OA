@@ -33,7 +33,7 @@ export default {
           message: "修改用户成功",
           type: "success",
         });
-        this.$router.push("/index/Admin/list");
+        this.$router.push("/index/user/list");
       });
     },
      

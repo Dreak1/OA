@@ -30,6 +30,7 @@ const roomSchema = new mongoose.Schema({
 
 //申请会议
 const applyRoomSchema = new mongoose.Schema({
+    personName: { type: String },
     roomId: { type: String },
     name: { type: String },
     host: { type: String },

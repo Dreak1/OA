@@ -208,15 +208,17 @@ app.post('/api/apply/room', async (req, res) => {
 })
 
 //待审核会议室数据
-app.get('/api/apply/process', async (req, res) => {
+app.get('/api/apply/process/:user', async (req, res) => {
   const room = await Apply.find({
-    start:{$ne:4}
+    start:{$ne:4},
+    personName:req.params.user
   })
   res.send(room)
 })
 
 //待审核会议室数据
 app.get('/api/examine/process', async (req, res) => {
+  console.log(req.params.user)
   const room = await Apply.find({
     start:0
   })

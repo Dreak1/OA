@@ -31,7 +31,8 @@ export default {
   },
   methods: {
     fetch() {
-      this.$http.get("./apply/process").then((res) => {
+      const user =localStorage.getItem('username')
+      this.$http.get(`./apply/process/${user}`).then((res) => {
         console.log(res.data)
         this.room = res.data;
       });
