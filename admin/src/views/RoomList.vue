@@ -4,7 +4,9 @@
     <el-table-column prop="name" label="会议室名称" width="150"> </el-table-column>
     <el-table-column prop="personNumber" label="可容纳人数" width="150"> </el-table-column>
     <el-table-column prop="address" label="会议室位置" width="150"> </el-table-column>
-    <el-table-column prop="resources" label="会议室配备资源"> </el-table-column>
+    <el-table-column prop="resources" label="会议室配备资源" width="250"> </el-table-column>
+
+    <el-table-column prop="spare" label="是否是备用会议室"> </el-table-column>
 
     <el-table-column fixed="right" label="操作" width="150">
       <template slot-scope="scope">
@@ -28,7 +30,14 @@ export default {
   methods: {
     fetch() {
       this.$http.get("roomList").then((res) => {
-        this.roomList = res.data;
+        this.roomList = res.data.map(v=>{
+          if(v.spare == 'true'){
+            v.spare = '是'
+          }else{
+            v.spare = '否'
+          }
+          return v
+        })
       });
     },
     edit(id) {

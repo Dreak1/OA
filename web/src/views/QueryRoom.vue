@@ -90,11 +90,10 @@
           <el-row>
             <el-col :span="15"><div class="left"></div></el-col>
             <el-col :span="9">
-              <el-button type="primary" @click="applyRoom(item.roomId,item.address)"
-                >申请会议室</el-button>
-                
-              </el-col>
-              
+              <el-button type="primary" @click="applyRoom(item.roomId, item.address)"
+                >申请会议室</el-button
+              >
+            </el-col>
           </el-row>
         </el-card>
       </div>
@@ -105,6 +104,7 @@
 export default {
   data() {
     return {
+      spare: "false",
       room: {
         date1: "", //日期
         startTime: "", //开始时间
@@ -112,14 +112,17 @@ export default {
       },
       roomList: [],
       allRoom: [],
+      key: false, //备用会议室
     };
   },
-  mounted() { 
+  mounted() {
+    
     //this.queryRoom();
   },
   methods: {
     //查询已经使用的会议室
     queryRoom() {
+      this.spare = "false";
       this.queryAllRoom();
       this.$http
         .get("./query/room", {
@@ -127,27 +130,61 @@ export default {
         })
         .then((res) => {
           res.data.forEach((item) => {
-            this.allRoom.forEach((v)=>{
-              if(item.roomId == v.roomId){
-                v.isUse = false
+            this.allRoom.forEach((v) => {
+              if (item.roomId == v.roomId) {
+                v.isUse = false;
               }
-            })
+            });
           });
+          this.roomList = this.allRoom;
+
+          let count = 0;
+          let len = this.roomList.length;
+          this.roomList.map((v) => {
+            console.log("map执行");
+            if (v.isUse == false) {
+              console.log("aaa");
+              count++;
+            }
+          });
+          console.log(len, count);
+          if (this.roomList.length != 0 && len == count) {
+            this.queryBRoom();
+          }
           this.$message({
             message: "查询成功",
             type: "success",
           });
-          this.roomList = this.allRoom
+        });
+    },
+    //查询备用会议室
+    queryBRoom() {
+      this.spare = true;
+      this.queryAllRoom();
+      this.$http
+        .get("./query/room", {
+          params: this.room,
+        })
+        .then((res) => {
+          res.data.forEach((item) => {
+            this.allRoom.forEach((v) => {
+              if (item.roomId == v.roomId) {
+                v.isUse = false;
+              }
+            });
+          });
+          console.log(this.allRoom)
+          this.roomList = this.allRoom;
         });
     },
     //查询所有会议室
     queryAllRoom() {
-      this.$http.get("./query/allRoom").then((res) => {
+      this.$http.get("./query/allRoom", { params: { spare: this.spare } }).then((res) => {
         this.allRoom = res.data;
       });
     },
     //申请会议室
-    applyRoom(id,address) {
+    applyRoom(id, address) {
       this.$router.push(`../order/room/${id}/${address}`);
     },
   },

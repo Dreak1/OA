@@ -4,7 +4,7 @@
     ref="room"
     :rules="rules"
     :model="room"
-    label-width="150px"
+    label-width="200px"
   >
     <el-form-item label="会议室编号" prop="roomId">
       <el-input v-model="room.roomId"></el-input>
@@ -32,6 +32,10 @@
       </el-checkbox-group>
     </el-form-item>
 
+    <el-form-item label="是否设置为备用会议室" prop="spare">
+      <el-switch v-model="room.spare"></el-switch>
+    </el-form-item>
+
     <el-form-item>
       <el-button type="primary" native-type="submit">立即创建</el-button>
       <el-button @click="resetForm('room')">重置</el-button>
@@ -47,6 +51,7 @@ export default {
         name: "",
         address: "",
         personNumber: "",
+        spare:false,
         resources: [],
       },
       rules: {

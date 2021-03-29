@@ -9,8 +9,11 @@
     <el-table-column prop="endTime" label="结束时间" width="150vw"> </el-table-column>
     <el-table-column prop="apply" label="审核状态"> </el-table-column>
 
-    <el-table-column fixed="right" label="操作" width="150">
-      <template slot-scope="scope" >
+    <el-table-column fixed="right" label="操作" width="250">
+      <template slot-scope="scope" class="upload">
+         <el-button v-if="scope.row.start!=0"  @click="meet(scope.row._id)" type="primary" size="small"
+          >上传会议纪要</el-button
+        >
         <!-- scope.row就是这一行的所有数据 -->
         <el-button v-if="scope.row.start==0" @click="remove(scope.row._id)" type="primary" size="small"
           >撤回申请</el-button
@@ -55,10 +58,17 @@ export default {
         this.fetch();
       });
     },
+    meet(id){
+      this.$router.push(`/index/meeting/room/${id}`);
+    }
   },
   created() {
     this.fetch();
   },
 };
 </script>
-<style></style>
+<style>
+.upload{
+  display: flex;
+}
+</style>

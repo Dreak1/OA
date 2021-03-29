@@ -7,8 +7,8 @@
     <el-table-column prop="date1" label="会议日期" width="150vw"> </el-table-column>
     <el-table-column prop="startTime" label="开始时间" width="150vw"> </el-table-column>
     <el-table-column prop="endTime" label="结束时间" width="150vw"> </el-table-column>
-
-    <el-table-column fixed="right" label="操作" width="250">
+    
+    <el-table-column v-if="power == 4" fixed="right" label="操作" width="250">
       <template slot-scope="scope">
         <!-- scope.row就是这一行的所有数据 -->
         <el-button @click="agree(scope.row._id)" type="primary" size="small"
@@ -19,14 +19,13 @@
         >
       </template>
     </el-table-column>
-
   </el-table>
-  
 </template>
 <script>
 export default {
   data() {
     return {
+      power:'',
       centerDialogVisible: false,
       room: [name],
     };
@@ -59,6 +58,7 @@ export default {
     },
   },
   created() {
+    this.power = localStorage.getItem('power');
     this.fetch();
   },
 };

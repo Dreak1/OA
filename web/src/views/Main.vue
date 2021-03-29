@@ -1,9 +1,7 @@
 <template>
   <el-container style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu
-        router
-      >
+      <el-menu router>
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-tickets"></i>预约会议室</template>
           <el-menu-item-group>
@@ -22,18 +20,16 @@
     </el-aside>
 
     <el-container>
-     
-      <el-header style="text-align: right; font-size: 12px;">
-        <div class="out" @click="out">
-          退出登陆
-        </div>
+      <el-header style="text-align: right; font-size: 12px">
+        <!-- <el-badge :value="12" :hidden=true class="item">
+          <el-button size="small" @click="toDo">待办事项</el-button>
+        </el-badge> -->
+        <div class="out" @click="out">退出登陆</div>
       </el-header>
 
       <el-main>
         <router-view></router-view>
       </el-main>
-
-
     </el-container>
   </el-container>
 </template>
@@ -41,7 +37,10 @@
 <script>
 export default {
   methods: {
-    out(){
+    out() {
+      this.$router.replace("/login");
+    },
+    toDo(){
       this.$router.replace("/login");
     }
   },
@@ -63,11 +62,15 @@ body {
 .el-aside {
   color: #333;
 }
-.out{
+.out {
   float: right;
   width: 70px;
   padding-right: 50px;
   font-size: 16px;
   cursor: pointer;
+}
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
 }
 </style>

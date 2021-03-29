@@ -101,7 +101,9 @@
         </el-tag>
       </el-col>
       <el-col :sapn="12">
-        <el-button class="choseMeet" type="primary" @click="dialogVisible = true">点击选择参会人员</el-button>
+        <el-button class="choseMeet" type="primary" @click="dialogVisible = true"
+          >点击选择参会人员</el-button
+        >
       </el-col>
 
       <el-dialog
@@ -114,8 +116,8 @@
         <div class="personChose">
           <el-tree
             show-checkbox
-            check-strictly 
-            :getCheckedKeys= true
+            check-strictly
+            :getCheckedKeys="true"
             :data="personDate"
             :filter-node-method="filterNode"
             ref="tree"
@@ -151,31 +153,19 @@ export default {
     return {
       personDate: [
         {
-          label: "A部门",
-          disabled:true,
-          children: [
-            {
-              label: "A员工",
-            },
-            {
-              label: "B员工",
-            },
-            {
-              label: "C员工",
-            },
-          ],
+          label: "开发部门",
+          disabled: true,
+          children: [],
         },
         {
-          label: "B部门",
-          disabled:true,
-          children: [
-            {
-              label: "A员工",
-            },
-            {
-              label: "A员工",
-            },
-          ],
+          label: "测试部门",
+          disabled: true,
+          children: [],
+        },
+        {
+          label: "行政部门",
+          disabled: true,
+          children: [],
         },
       ],
       allPerson: [
@@ -198,21 +188,19 @@ export default {
       dialogVisible: false,
       filterText: "",
       room: {
-        personName:localStorage.getItem('username'),
-        roomId: '',
-        name: "",//会议主题
-        host: "",//会议主持人
-        orderPerson: "",//申请人
-        address:"",
-        department: "",//部门
-        date1: "",//日期
-        startTime: "",//开始时间
-        endTime: "",//结束时间
-        notice: "", //通知参会人
+        personName: localStorage.getItem("username"),
+        roomId: "",
+        name: "", //会议主题
+        host: "", //会议主持人
+        orderPerson: "", //申请人
+        address: "",
+        department: "", //部门
+        date1: "", //日期
+        startTime: "", //开始时间
+        endTime: "", //结束时间
+        notice: true, //通知参会人
         remarks: "", //会议备注
-        attendee: [
-         
-        ], //参会人员
+        attendee: [], //参会人员
       },
       rules: {
         name: [{ required: true, message: "请输入会议主题", trigger: "blur" }],
@@ -228,20 +216,42 @@ export default {
     },
   },
   mounted() {
-    this.room.roomId = this.$route.params.id
-    this.room.address = this.$route.params.address
+    this.room.roomId = this.$route.params.id;
+    this.room.address = this.$route.params.address;
+    this.getPerson();
   },
   methods: {
+    getPerson() {
+      this.$http.get("./user/list", this.room).then((res) => {
+        res.data.map((item) => {
+          if (item.department == "开发部门") {
+            this.personDate[0].children.push({
+              label: item.username,
+              confirm: 0, //0未确认  1同意   2拒绝
+            });
+          } else if (item.department == "测试部门") {
+            this.personDate[1].children.push({
+              label: item.username,
+              confirm: 0,
+            });
+          } else {
+            this.personDate[2].children.push({
+              label: item.username,
+              confirm: 0,
+            });
+          }
+        });
+      });
+    },
     saveOrder() {
-      console.log(this.room)
-      this.$http.post('./apply/room',this.room).then(()=>{
+      console.log(this.room);
+      this.$http.post("./apply/room", this.room).then(() => {
         this.$message({
-          message:"保存成功",
-          type:"success"
-        })
-        this.$router.push('../../../room/approval')
-      })
-      
+          message: "保存成功",
+          type: "success",
+        });
+        this.$router.push("../../../room/approval");
+      });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -253,8 +263,8 @@ export default {
       this.room.attendee = person;
     },
     chosePerson() {
-      this.dialogVisible = false, 
-      this.room.attendee = this.$refs.tree.getCheckedNodes();
+      (this.dialogVisible = false),
+        (this.room.attendee = this.$refs.tree.getCheckedNodes());
     },
     phandleClose(done) {
       this.$confirm("确认关闭？")
@@ -305,10 +315,10 @@ export default {
   max-height: 300px;
   border: 1px solid #f5f5f5;
 }
-.choseMeet{
+.choseMeet {
   margin-top: 30px;
 }
-.roomId{
+.roomId {
   display: flex;
   align-items: center;
   height: 60px;

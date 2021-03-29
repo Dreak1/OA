@@ -15,7 +15,9 @@ const userSchema = new mongoose.Schema({
             //使用bcrypt加密密码
             return require('bcryptjs').hashSync(val, 10)
         }
-    }
+    },
+    power: { type: String, default: 0 },
+    department: { type: String}
 })
 
 //会议室信息
@@ -25,6 +27,7 @@ const roomSchema = new mongoose.Schema({
     address: { type: String },
     personNumber: { type: String },
     resources: { type: Array },
+    spare:{type:String},
     isUse: { type: Boolean, default: true }
 })
 
@@ -44,7 +47,7 @@ const applyRoomSchema = new mongoose.Schema({
     remarks: { type: String },
     attendee: { type: Array },
     apply: { type: String, default: '审核中' },
-    start: {type: Number,default: 0}
+    start: { type: Number, default: 0 }
 })
 
 const Admin = mongoose.model('Admin', userSchema);

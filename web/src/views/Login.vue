@@ -55,6 +55,7 @@ export default {
         const res = await this.$http.post("/user/login", this.admin);
         localStorage.token = res.data.token;
         localStorage.username = res.data.user.username;
+        localStorage.power = res.data.user.power;
         this.$router.replace("./index"),
           this.$message({
             type: "success",

@@ -8,6 +8,18 @@
       <el-input type="password" v-model="user.password"></el-input>
     </el-form-item>
 
+    <el-form-item label="权限等级">
+      <el-select v-model="value" placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item>
       <el-button type="primary" native-type="submit">立即创建</el-button>
       <el-button>取消</el-button>
@@ -19,12 +31,31 @@ export default {
   data() {
     return {
       user: {},
+      value:'',
+      options: [{
+          value: '0',
+          label: '权限0'
+        }, {
+          value: '1',
+          label: '权限1'
+        }, {
+          value: '2',
+          label: '权限2'
+        }, {
+          value: '3',
+          label: '权限3'
+        }, {
+          value: '4',
+          label: '权限4'
+        }],
     };
   },
   methods: {
    fetch() {
       this.$http.get(`/user/${this.$route.params.id}`).then((res) => {
+        console.log(res)
         this.user = res.data;
+        this.value = res.data.power
       });
     },
     saveUsers() {

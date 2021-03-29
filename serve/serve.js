@@ -54,15 +54,12 @@ app.get("/api/admin/:id", async (req, res) => {
 
 //注册普通用户
 app.post('/api/user/register', async (req, res) => {
-  const user = await User.create({
-    username: req.body.username,
-    password: req.body.password,
-  })
+  const user = await User.create(req.body)
   res.send(user)
 })
 
 //获取普通列表
-app.get("/api/user/list",auth, async (req, res) => {
+app.get("/api/user/list", async (req, res) => {
   const user = await User.find();
   res.send(user)
 })
@@ -238,7 +235,7 @@ app.get('/api/query/room', async (req, res) => {
   const endTime = req.query.endTime;
   const room = await Apply.find({
     date1:data1,
-    startTime:{$gte:startTime},
+    startTime:{$lte:startTime},
     endTime:{$lte:endTime}
   })
   res.send(room)
@@ -246,7 +243,11 @@ app.get('/api/query/room', async (req, res) => {
 
 //查询所有会议室
 app.get('/api/query/allRoom', async (req, res) => {
-  const room = await Room.find()
+  const room = await Room.find(
+    {
+      spare:req.query.spare
+    }
+  )
   res.send(room)
 })
 
@@ -268,7 +269,12 @@ app.put('/api/del/process/:id', async (req, res) => {
   res.send(room)
 })
 
-
+app.put('/api/editmeet/:id',async (req, res) => {
+  console.log(req.body)
+  console.log(req.params)
+  const user = await Apply.findByIdAndUpdate(req.params.id, req.body);
+  res.send(user);
+})
 
 app.listen(4000, () => {
   console.log('服务器端口4000启动成功');
